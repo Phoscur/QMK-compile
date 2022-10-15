@@ -25,30 +25,24 @@ inputs:
     default: 'zsa/qmk_firmware'
   branch:
     description: 'Branch of fork. Uses default branch when empty'
-    default: 'firmware21'
 runs:
   using: "composite"
   steps:
     - name: Checkout the commit
       uses: actions/checkout@v2
 
-    - name: Choose firmware branch
-      run: echo "BRANCH=${{ inputs.branch }}" >> $GITHUB_ENV
-      shell: bash
-
-    - name: Choose QMK fork
-      run: echo "FORK=${{ inputs.fork }}" >> $GITHUB_ENV
-      shell: bash
-
     - name: Build QMK container
       run: docker compose build
       shell: bash
+      env:
+        FORK: ${{ inputs.fork }}
+        BRANCH: ${{ inputs.branch }}
 
     - name: Compile Keyboard
       run: docker compose run qmk
       shell: bash
       env:
-        INPUT_PATH=${{ inputs.path }}
-        INPUT_ARTIFACTS_PATH=${{ inputs.artifacts_path }}
-        INPUT_KEYMAP=${{ inputs.keymap }}
-        INPUT_KEYBOARD=${{ inputs.keyboard }}
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_ARTIFACTS_PATH: ${{ inputs.artifacts_path }}
+        INPUT_KEYMAP: ${{ inputs.keymap }}
+        INPUT_KEYBOARD: ${{ inputs.keyboard }}
