@@ -1,7 +1,8 @@
 FROM qmkfm/qmk_cli
-# test layout ADD layout_src ./layout_src
-# TODO would be nice to make this whole action more reusable parameterising `qmk setup`
-RUN qmk setup zsa/qmk_firmware -b firmware20 -y
+ARG FORK=zsa/qmk_firmware
+ARG BRANCH
+RUN git clone ${BRANCH:+-b $BRANCH --single-branch} --recurse-submodules https://github.com/${FORK}.git /qmk_firmware
+RUN qmk setup -y
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
