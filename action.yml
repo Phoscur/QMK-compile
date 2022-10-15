@@ -1,9 +1,6 @@
 name: 'ORYX QMK Firmware Compiler Action (zsa only)'
 author: 'Phoscur'
 description: 'Compiles QMK Firmware from ORYX source'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
 branding:
   icon: 'settings'  
   color: 'orange'
@@ -23,4 +20,34 @@ inputs:
   keyboard:
     description: 'Keyboard type'
     default: 'moonlander'
-  
+  fork:
+    description: 'Fork of QMK on Github'
+    default: 'zsa/qmk_firmware'
+  branch:
+    description: 'Branch of fork. Uses default branch when empty'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout the commit
+      uses: actions/checkout@v3
+      with: 
+        repository: Phoscur/QMK-Compile
+        path: ./QMK-Compile
+
+    - name: Build QMK container
+      run: docker compose build
+      working-directory: ./QMK-Compile
+      shell: bash
+      env:
+        FORK: ${{ inputs.fork }}
+        BRANCH: ${{ inputs.branch }}
+
+    - name: Compile Keyboard
+      run: docker compose up
+      working-directory: ./QMK-Compile
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_ARTIFACTS_PATH: ${{ inputs.artifacts_path }}
+        INPUT_KEYMAP: ${{ inputs.keymap }}
+        INPUT_KEYBOARD: ${{ inputs.keyboard }}

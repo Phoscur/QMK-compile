@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  qmk:
+    working_dir: ${GITHUB_WORKSPACE}
+    environment:
+      INPUT_PATH: ${INPUT_PATH}
+      INPUT_ARTIFACTS_PATH: ${INPUT_ARTIFACTS_PATH}
+      INPUT_KEYMAP: ${INPUT_KEYMAP}
+      INPUT_KEYBOARD: ${INPUT_KEYBOARD}
+    volumes:
+      - ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE}
+    build:
+      context: .
+      args:
+        FORK: ${FORK}
+        BRANCH: ${BRANCH}
