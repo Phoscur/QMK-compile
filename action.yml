@@ -29,10 +29,12 @@ runs:
   using: "composite"
   steps:
     - name: Checkout the commit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with: 
+        repository: Phoscur/QMK-Compile
 
     - name: Build QMK container
-      run: ls -altr && docker compose build
+      run: docker compose build
       shell: bash
       env:
         FORK: ${{ inputs.fork }}
