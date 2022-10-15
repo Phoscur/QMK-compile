@@ -1,11 +1,11 @@
-version: '3.4'
+version: '3.7'
 services:
   qmk:
+    working_dir: /github/workspace
+    volumes:
+      - ${GITHUB_WORKSPACE}:/github/workspace
     build:
       context: .
       args:
         FORK: ${FORK}
         BRANCH: ${BRANCH}
-      volumes:
-        - ${GITHUB_WORKSPACE}:/github/workspace
-      working_dir: /github/workspace
