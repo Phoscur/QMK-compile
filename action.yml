@@ -32,7 +32,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Build QMK container
-      run: docker compose build
+      run: ls -altr && docker compose build
       shell: bash
       env:
         FORK: ${{ inputs.fork }}
