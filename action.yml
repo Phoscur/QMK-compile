@@ -25,6 +25,7 @@ inputs:
     default: 'zsa/qmk_firmware'
   branch:
     description: 'Branch of fork. Uses default branch when empty'
+    default: 'firmware21'
 runs:
   using: "composite"
   steps:
