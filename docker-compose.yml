@@ -2,6 +2,11 @@ version: '3.7'
 services:
   qmk:
     working_dir: /github/workspace
+    environment:
+      INPUT_PATH: ${INPUT_PATH}
+      INPUT_ARTIFACTS_PATH: ${INPUT_ARTIFACTS_PATH}
+      INPUT_KEYMAP: ${INPUT_KEYMAP}
+      INPUT_KEYBOARD: ${INPUT_KEYBOARD}
     volumes:
       - ${GITHUB_WORKSPACE}:/github/workspace
     build:
